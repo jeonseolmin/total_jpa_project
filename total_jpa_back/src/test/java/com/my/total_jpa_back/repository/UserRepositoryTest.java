@@ -1,8 +1,8 @@
 package com.my.total_jpa_back.repository;
 
-import com.my.total_jpa_back.entity.Gender;
-import com.my.total_jpa_back.entity.Users;
-import lombok.extern.log4j.Log4j;
+import com.my.total_jpa_back.common.Gender;
+import com.my.total_jpa_back.users.entity.Users;
+import com.my.total_jpa_back.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
