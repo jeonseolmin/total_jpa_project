@@ -2,10 +2,10 @@ package com.my.total_jpa_back.users.controller;
 
 import com.my.total_jpa_back.common.entitiy.Gender;
 import com.my.total_jpa_back.common.exception.UserNotFoundException;
-import com.my.total_jpa_back.users.dto.HelloRequest;
-import com.my.total_jpa_back.users.dto.HelloResponse;
+import com.my.total_jpa_back.users.dto.*;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
+import com.my.total_jpa_back.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,27 @@ import java.util.List;
 @RequestMapping("/api")
 public class userController {
     private final UserRepository userRepository;
+    private final UserService userService;
+
+    // User Delete
+    @DeleteMapping("/users/{id}")
+    public String delete(@PathVariable Long id){
+        userService.delete(id);
+        return "회원 삭제 완료";
+    }
+
+    // User update API
+    // 수정 대상은 PathVariable 값은 RequestBody 받아서 수정
+    @PutMapping("/users/{id}")
+    public UserResponse update(@PathVariable Long id,
+                               @RequestBody UserUpdateRequest request){
+        return userService.update(id,request);
+    }
+
+    @PostMapping("/create")
+    public UserResponse create(@RequestBody UserCreateRequest userCreateRequest){
+        return  userService.create(userCreateRequest);
+    }
 
     // 예외 처리 테스트
     @GetMapping("/users/{id}")
