@@ -1,7 +1,7 @@
-package com.my.total_jpa_back.repository;
+package com.my.total_jpa_back.orders.repository;
 
-import com.my.total_jpa_back.entity.OrderStatus;
-import com.my.total_jpa_back.entity.UserOrder;
+import com.my.total_jpa_back.common.entity.OrderStatus;
+import com.my.total_jpa_back.orders.entity.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public interface UserOrderRepository extends JpaRepository<UserOrder, Long> {
     // select * from user_order where price between 290000 and 300000;
     List<UserOrder> findByPriceBetween(int start, int end);
 
-    // 8. 가격 내림차순..
+    // 8. 가격 내림차순
     // select * from user_order Order by price desc;
     List<UserOrder> findAllByOrderByPriceDesc();
 
@@ -41,4 +41,6 @@ public interface UserOrderRepository extends JpaRepository<UserOrder, Long> {
     // in 구문은 리스트로 만들어서 재료를 전달한다.
     // select * from user_order where status in ('READY' ,'SHIPPING')
     List<UserOrder> findByStatusIn(List<OrderStatus> list);
+
+
 }

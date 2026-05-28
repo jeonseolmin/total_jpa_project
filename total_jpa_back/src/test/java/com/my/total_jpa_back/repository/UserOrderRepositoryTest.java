@@ -1,12 +1,14 @@
 package com.my.total_jpa_back.repository;
 
-import com.my.total_jpa_back.entity.OrderStatus;
-import com.my.total_jpa_back.entity.UserOrder;
+import com.my.total_jpa_back.common.entity.OrderStatus;
+import com.my.total_jpa_back.orders.entity.UserOrder;
+import com.my.total_jpa_back.orders.repository.UserOrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,4 +130,21 @@ class UserOrderRepositoryTest {
                     order.getId(), order.getStatus());
         }
     }
+
+    @Test @DisplayName("주문 상태에 따른 오름차순 정렬, 제품 명에 내림차 순, 같은 제품명은 주문일에 내림차순")
+    void multiConditionSortTest(){
+        Sort sort = Sort.by("status").ascending()
+                .and(
+                        Sort.by("productName").descending()
+                                .and(
+                                        Sort.by("createdAt").descending()
+                                )
+                );
+        List<UserOrder> orders = userOrderRepository.findAll(sort);
+        orders.stream().limit(4000)
+                .forEach(x ->log.info(
+                        "status : {}, name : {} , createAt: {}", x.getStatus(),x.getProductName(),x.getCreatedAt()));
+    }
+
+
 }
