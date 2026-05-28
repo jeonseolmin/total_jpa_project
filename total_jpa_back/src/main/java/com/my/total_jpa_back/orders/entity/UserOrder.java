@@ -1,11 +1,13 @@
-package com.my.total_jpa_back.entity;
+package com.my.total_jpa_back.orders.entity;
 
+import com.my.total_jpa_back.common.BaseEntity;
+import com.my.total_jpa_back.common.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter @Table(name ="user_order")
-public class UserOrder  extends  BaseEntity{
+public class UserOrder  extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
