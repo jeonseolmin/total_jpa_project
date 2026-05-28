@@ -1,13 +1,10 @@
-package com.my.total_jpa_back.users.entitiy;
+package com.my.total_jpa_back.entity;
 
-import com.my.total_jpa_back.common.entity.BaseEntity;
-import com.my.total_jpa_back.common.entity.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Entity @Getter @Setter @Table(name = "users") @ToString(callSuper = true)
+@Entity @Getter @Setter @Table(name = "users")
 public class Users extends BaseEntity {
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
