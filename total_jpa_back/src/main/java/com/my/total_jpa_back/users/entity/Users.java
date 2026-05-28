@@ -1,7 +1,7 @@
 package com.my.total_jpa_back.users.entity;
 
-import com.my.total_jpa_back.common.BaseEntity;
-import com.my.total_jpa_back.common.Gender;
+import com.my.total_jpa_back.common.entitiy.BaseEntity;
+import com.my.total_jpa_back.common.entitiy.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

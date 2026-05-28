@@ -1,6 +1,6 @@
 package com.my.total_jpa_back.repository;
 
-import com.my.total_jpa_back.common.Gender;
+import com.my.total_jpa_back.common.entitiy.Gender;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;

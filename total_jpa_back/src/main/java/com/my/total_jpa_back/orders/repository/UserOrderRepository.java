@@ -1,6 +1,6 @@
 package com.my.total_jpa_back.orders.repository;
 
-import com.my.total_jpa_back.common.OrderStatus;
+import com.my.total_jpa_back.common.entitiy.OrderStatus;
 import com.my.total_jpa_back.orders.entity.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
