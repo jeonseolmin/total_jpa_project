@@ -1,4 +1,4 @@
-package com.my.total_jpa_back.common.entity;
+package com.my.total_jpa_back.entity;
 
 import lombok.Getter;
 
