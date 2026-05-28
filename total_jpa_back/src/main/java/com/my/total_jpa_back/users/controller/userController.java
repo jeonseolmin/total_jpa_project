@@ -1,14 +1,15 @@
 package com.my.total_jpa_back.users.controller;
 
-import com.my.total_jpa_back.common.Gender;
-import com.my.total_jpa_back.common.OrderStatus;
+import com.my.total_jpa_back.common.entitiy.Gender;
+import com.my.total_jpa_back.common.exception.UserNotFoundException;
+import com.my.total_jpa_back.users.dto.HelloRequest;
+import com.my.total_jpa_back.users.dto.HelloResponse;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // RestFul 한 API를 제공할 때 사용하는 어노테이션
@@ -16,6 +17,22 @@ import java.util.List;
 @RequestMapping("/api")
 public class userController {
     private final UserRepository userRepository;
+
+    // 예외 처리 테스트
+    @GetMapping("/users/{id}")
+    public Users findById(@PathVariable Long id){
+        return userRepository.findById(id)
+                .orElseThrow(()-> new UserNotFoundException());
+    }
+
+    // RequestBody Test
+    @PostMapping("/test")
+    // RequestBody : PostMan에서 Json으로 보낸 데이터를 받는 아이.
+    public HelloResponse test(@RequestBody HelloRequest request){
+        return HelloResponse.builder()
+                .massage("안녕하세요 " + request.getName())
+                .age(request.getAge()).build();
+    }
 
     //전체 리스트를 요청하는 컨트롤러
     @GetMapping("/users")

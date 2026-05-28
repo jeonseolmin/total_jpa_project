@@ -1,6 +1,6 @@
 package com.my.total_jpa_back.users.repository;
 
-import com.my.total_jpa_back.common.Gender;
+import com.my.total_jpa_back.common.entitiy.Gender;
 import com.my.total_jpa_back.users.entity.Users;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

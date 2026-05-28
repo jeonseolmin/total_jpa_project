@@ -1,7 +1,7 @@
 package com.my.total_jpa_back.orders.entity;
 
-import com.my.total_jpa_back.common.BaseEntity;
-import com.my.total_jpa_back.common.OrderStatus;
+import com.my.total_jpa_back.common.entitiy.BaseEntity;
+import com.my.total_jpa_back.common.entitiy.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
