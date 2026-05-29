@@ -1,6 +1,7 @@
 package com.my.total_jpa_back.repository;
 
 import com.my.total_jpa_back.common.entitiy.Gender;
+import com.my.total_jpa_back.orders.entity.UserOrder;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,5 +58,40 @@ class UserRepositoryTest {
     void findByLikeColorAndGenderTest(){
         List<Users> users = userRepository.findByLikeColorAndGender("blue",Gender.Male);
         for(Users user : users) log.info("name = {} likeColor = {}, gender = {}" ,user.getName(),user.getLikeColor(),user.getGender());
+    }
+
+    @Test @Transactional
+    @DisplayName("회원정보 조회 후 주문 정보 찾아오기")
+    void findUserAndOrderInfoTest(){
+        Users user = userRepository.findById(1L).orElseThrow();
+        log.info("이름 : {}", user.getName());
+        for(UserOrder order : user.getOrders()){
+            log.info("제품명 : {} 가격 : {}"
+            ,order.getProductName(),order.getPrice());
+        }
+    }
+
+    @Test @Transactional
+    @DisplayName("N+1 문제 확인")
+    void nPlusOneTest(){
+        List<Users> users = userRepository.findAll();
+        for(Users user:users){
+            log.info("이름 : {}" , user.getName());
+            for(UserOrder order : user.getOrders()){
+                log.info("주문 번호 : {} 제품명 {}",order.getId(),order.getProductName());
+            }
+        }
+    }
+
+    @Test @Transactional
+    @DisplayName("JPQL로 가져오기")
+    void joinTest(){
+        List<Users> users = userRepository.findAllWithOrders();
+        for(Users user:users){
+            log.info("이름 : {}" , user.getName());
+            for(UserOrder order : user.getOrders()){
+                log.info("주문 번호 : {} 제품명 {}",order.getId(),order.getProductName());
+            }
+        }
     }
 }

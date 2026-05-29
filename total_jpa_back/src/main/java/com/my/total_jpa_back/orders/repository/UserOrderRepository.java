@@ -1,11 +1,50 @@
 package com.my.total_jpa_back.orders.repository;
 
 import com.my.total_jpa_back.common.entitiy.OrderStatus;
+import com.my.total_jpa_back.orders.dto.OrderResponse;
 import com.my.total_jpa_back.orders.entity.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
 public interface UserOrderRepository extends JpaRepository<UserOrder, Long> {
+
+    @Query("""
+    SELECT NEW com.my.total_jpa_back.orders.dto.OrderResponse(o.id, o.productName,o.price,o.status,u.name)
+    FROM UserOrder o
+    JOIN o.user u
+""")
+            List<OrderResponse> findOrderResponse();
+
+    @Query("""
+    SELECT NEW com.my.total_jpa_back.orders.dto.OrderResponse(o.id, o.productName,o.price,o.status,u.name)
+    FROM UserOrder o
+    JOIN o.user u
+    WHERE o.status = :status
+""")
+    List<OrderResponse> findCompletedStatus(@Param("status") OrderStatus status);
+
+    @Query("""
+    SELECT NEW com.my.total_jpa_back.orders.dto.OrderResponse(o.id, o.productName,o.price,o.status,u.name)
+    FROM UserOrder o
+    JOIN o.user u
+    WHERE o.status = :status
+    AND o.price >= 100000
+    AND u.name LIKE CONCAT('%', :keyword, '%')
+    ORDER BY o.createdAt DESC
+""")
+    List<OrderResponse> findOrderKimPrice100000OverDesc(@Param("status") OrderStatus status,
+                                                        @Param("keyword") String keyword);
+
+    @Query("""
+    SELECT NEW com.my.total_jpa_back.orders.dto.OrderResponse(o.id, o.productName,o.price,o.status,u.name)
+    FROM UserOrder o
+    JOIN o.user u
+    WHERE u.id = :userId
+""")
+    List<OrderResponse> findOrderByUserId(@Param("userId")Long userId);
     // 2. 주문상태로 조회
     // select * from user_order where status = 'COMPLETE'
     List<UserOrder> findByStatus(OrderStatus status);
