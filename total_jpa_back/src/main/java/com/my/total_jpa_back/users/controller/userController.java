@@ -2,6 +2,7 @@ package com.my.total_jpa_back.users.controller;
 
 import com.my.total_jpa_back.common.entitiy.Gender;
 import com.my.total_jpa_back.common.exception.UserNotFoundException;
+import com.my.total_jpa_back.orders.dto.PageResponse;
 import com.my.total_jpa_back.users.dto.*;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
@@ -123,4 +124,18 @@ public class userController {
 
         return userRepository.findAllBy(pageable);
     }
+
+
+    @GetMapping("/getPage")
+    public PageResponse<UserResponse> findPage(
+            @RequestParam(name ="page",defaultValue = "0") int page,
+            @RequestParam(name="size",defaultValue = "10")int size
+    ){
+        Pageable pageable = PageRequest.of(
+                page,size,
+                Sort.by("createdAt").descending()
+        );
+        return userService.findPages(pageable);
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.my.total_jpa_back.users.service;
 
 import com.my.total_jpa_back.common.exception.UserNotFoundException;
+import com.my.total_jpa_back.orders.dto.PageResponse;
 import com.my.total_jpa_back.users.dto.UserCreateRequest;
 import com.my.total_jpa_back.users.dto.UserResponse;
 import com.my.total_jpa_back.users.dto.UserUpdateRequest;
 import com.my.total_jpa_back.users.entity.Users;
 import com.my.total_jpa_back.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
+    public PageResponse<UserResponse> findPages(Pageable pageable){
+        Page<Users> users = userRepository.findAll(pageable);
+
+        Page<UserResponse> responses =
+                users.map(user -> UserResponse.from(user));
+        return new PageResponse<>(responses);
+    }
     //User Update
     @Transactional
     public UserResponse update(Long id, UserUpdateRequest request) {
